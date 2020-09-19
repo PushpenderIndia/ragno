@@ -2,7 +2,6 @@
   <img src="https://github.com/PushpenderIndia/ragno/blob/master/img/ragno-logo.png" alt="Ragno Logo" />
 </p>
 
-<h1 align="center">Ragno</h1>
 <p align="center">
     <a href="https://python.org">
     <img src="https://img.shields.io/badge/Python-3.7-green.svg">
