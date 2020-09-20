@@ -163,11 +163,11 @@ if __name__ == '__main__':
     # If Quiet Mode is Enabled, Save URLs in TXT File, Else Print URLS
     if arguments.quiet:
         if arguments.output:
-            with open(arguments.output, "w") as f:
+            with open(arguments.output, "w", encoding="utf-8") as f:
                 for url in final_url_list:
                     f.write(url+"\n")
         else:
-            with open(arguments.domain+".txt", "w") as f:
+            with open(arguments.domain+".txt", "w", encoding="utf-8") as f:
                 for url in final_url_list:
                     f.write(url+"\n") 
                     
@@ -177,7 +177,7 @@ if __name__ == '__main__':
         print("[>> Total URLs] : ", len(final_list))  
         
     if arguments.output:
-        with open(arguments.output, "w") as f:
+        with open(arguments.output, "w", encoding="utf-8") as f:
             for url in final_url_list:
                 f.write(url+"\n")
                 
