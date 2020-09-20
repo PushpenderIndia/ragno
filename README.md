@@ -129,6 +129,17 @@ $ python ragno.py -d target.com -o result.txt -q --deepcrawl
 | ----------  | --------- | ----------- |
 | -d DOMAIN   | --domain DOMAIN | Target Domain Name, ex:- google.com |
 
+## Use Cases
+
+> After Finding URLs, you can filter them on the basics of your attack & can Mass Hunt Particular vulnerabilites such as XSS, LFI, Open redirect, SSRF, etc
+
+* One Liner for Hunting Mass Open Redirect
+```
+$ python3 ragno.py -d test.vulnweb.com -q -o test.vulnweb.txt | grep -a -i \=http | qsreplace "http://evil.com" | while read target_url do; do curl -s -L $target_url -I | grep "evil.com" && echo "[+] [Vulnerable] $target_url\n"; done
+```
+
+* You can Use GF Tool by Tomnonnom, to filter URLs with juice parameters, and then you can test them further.
+
 ## Contribute
 
 * All Contributors are welcome, this repo needs contributors who will improve this tool to make it best.
