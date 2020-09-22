@@ -12,7 +12,7 @@ Crawl Source:
 =============
 1. web.archive.org
 2. index.commoncrawl.org
-3. otx.alienvault.com  [Under Dev]
+3. otx.alienvault.com  
 """
     
 def get_arguments():
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     else:
         for url in final_url_list:
             print(url)
-        print("[>> Total URLs] : ", len(final_list))  
+        print("[>> Total URLs] : ", len(final_url_list))  
         
     if arguments.output:
         with open(arguments.output, "w", encoding="utf-8") as f:
