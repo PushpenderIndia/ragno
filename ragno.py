@@ -90,7 +90,10 @@ class PassiveCrawl:
                
         url = f"http://web.archive.org/cdx/search/cdx?url={wild_card+domain}/*&output=json&collapse=urlkey&fl=original"  
         urls_list = self.make_GET_Request(url, "json")
-        urls_list.pop(0)
+        try:
+            urls_list.pop(0)
+        except:
+            pass
         
         final_urls_list = []
         for url in urls_list:
