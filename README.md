@@ -149,9 +149,3 @@ python3 ragno.py -d testphp.vulnweb.com -q -o ragno_urls.txt && cat ragno_urls.t
 ## Contribute
 
 * All Contributors are welcome, this repo needs contributors who will improve this tool to make it best.
-
-## Contact
-
-singhpushpender250[at]gmail[dot]com 
-
-## More Features Coming Soon...
