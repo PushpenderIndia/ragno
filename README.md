@@ -133,7 +133,13 @@ $ python ragno.py -d target.com -o result.txt -q --deepcrawl
 
 > After Finding URLs, you can filter them on the basics of your attack & can Mass Hunt Particular vulnerabilites such as XSS, LFI, Open redirect, SSRF, etc
 
-* Example: One Liner for Hunting Mass Open Redirect
+### Example 1: One Liner for Hunting Open Redirect
+- Install qsreplace:
+```
+sudo wget https://github.com/tomnomnom/qsreplace/releases/download/v0.0.3/qsreplace-linux-amd64-0.0.3.tgz && sudo tar zvfx qsreplace-linux-amd64-0.0.3.tgz && sudo rm qsreplace-linux-amd64-0.0.3.tgz && sudo mv qsreplace /usr/bin/ && sudo chmod +x /usr/bin/qsreplace
+```
+
+- Run One Liner
 ```
 python3 ragno.py -d testphp.vulnweb.com -q -o ragno_urls.txt && cat ragno_urls.txt | grep -a -i \=http | qsreplace "http://evil.com" | while read target_url do; do curl -s -L $target_url -I | grep "evil.com" && echo "[+] [Vulnerable] $target_url \n"; done
 ```
@@ -146,6 +152,6 @@ python3 ragno.py -d testphp.vulnweb.com -q -o ragno_urls.txt && cat ragno_urls.t
 
 ## Contact
 
-singhpushpender250@gmail.com 
+singhpushpender250[at]gmail[dot]com 
 
 ## More Features Coming Soon...
