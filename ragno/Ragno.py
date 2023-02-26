@@ -147,7 +147,7 @@ class PassiveCrawl:
 def get_arguments():
     banner = pyfiglet.figlet_format("            Ragno")
     print(banner+"\n")
-    parser = argparse.ArgumentParser(description=f'{Fore.RED}Ragno v1.3 {Fore.YELLOW}[Author: {Fore.GREEN}Pushpender Singh{Fore.YELLOW}] [{Fore.GREEN}https://github.com/PushpenderIndia{Fore.YELLOW}]')
+    parser = argparse.ArgumentParser(description=f'{Fore.RED}Ragno v1.4 {Fore.YELLOW}[Author: {Fore.GREEN}Pushpender Singh{Fore.YELLOW}] [{Fore.GREEN}https://github.com/PushpenderIndia{Fore.YELLOW}]')
     parser._optionals.title = f"{Fore.GREEN}Optional Arguments{Fore.YELLOW}"
     parser.add_argument("-o", "--output", dest="output", help="Save Result in TXT file")
     parser.add_argument("-s", "--subs", dest="want_subdomain", help="Include Result of Subdomains", action='store_true')
@@ -156,7 +156,7 @@ def get_arguments():
     parser.add_argument("-t", "--thread", dest="thread", help=f"Number of Threads to Used. Default=50 [{Fore.WHITE}Use When deepcrawl is Enabled{Fore.YELLOW}]", default=50)    
     
     required_arguments = parser.add_argument_group(f'{Fore.RED}Required Arguments{Fore.GREEN}')
-    required_arguments.add_argument("-d", "--domain", dest="domain", help="Target Domain Name, ex:- google.com")
+    required_arguments.add_argument("-d", "--domain", dest="domain", help="Target Domain Name, ex:- google.com", required=True)
     return parser.parse_args()
 
 def main():
