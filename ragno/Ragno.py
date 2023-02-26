@@ -1,11 +1,13 @@
 
-import subprocess
+import pyfiglet
 import requests
 import argparse
 import numpy as np
 import threading
 
-BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
+from colorama import init
+from colorama import Fore, Back, Style
+init()
 
 """
 Crawl Source:
@@ -15,20 +17,6 @@ Crawl Source:
 3. otx.alienvault.com  
 """
     
-def get_arguments():
-    parser = argparse.ArgumentParser(description=f'{RED} Ragno v1.0')
-    parser._optionals.title = f"{GREEN}Optional Arguments{YELLOW}"
-    parser.add_argument("-o", "--output", dest="output", help="Save Result in TXT file")
-    parser.add_argument("-s", "--subs", dest="want_subdomain", help="Include Result of Subdomains", action='store_true')
-    parser.add_argument("-q", "--quiet", dest="quiet", help="Run Scan Without printing URLs on screen", action='store_true')
-    parser.add_argument("--deepcrawl", dest="deepcrawl", help=f"Uses All Available APIs of CommonCrawl for Crawling URLs [{WHITE}Takes Time{YELLOW}]", action='store_true')
-    parser.add_argument("-t", "--thread", dest="thread", help=f"Number of Threads to Used. Default=50 [{WHITE}Use When deepcrawl is Enabled{YELLOW}]", default=50)    
-    
-    required_arguments = parser.add_argument_group(f'{RED}Required Arguments{GREEN}')
-    required_arguments.add_argument("-d", "--domain", dest="domain", help="Target Domain Name, ex:- google.com")
-    return parser.parse_args()
-  
-
 class PassiveCrawl:
     def __init__(self, domain, want_subdomain, threadNumber, deepcrawl):
         self.domain = domain
@@ -155,8 +143,23 @@ class PassiveCrawl:
                 for url in urls_list:
                     if url != "":
                         self.final_url_list.append(url)          
+
+def get_arguments():
+    banner = pyfiglet.figlet_format("            Ragno")
+    print(banner+"\n")
+    parser = argparse.ArgumentParser(description=f'{Fore.RED}Ragno v1.3 {Fore.YELLOW}[Author: {Fore.GREEN}Pushpender Singh{Fore.YELLOW}] [{Fore.GREEN}https://github.com/PushpenderIndia{Fore.YELLOW}]')
+    parser._optionals.title = f"{Fore.GREEN}Optional Arguments{Fore.YELLOW}"
+    parser.add_argument("-o", "--output", dest="output", help="Save Result in TXT file")
+    parser.add_argument("-s", "--subs", dest="want_subdomain", help="Include Result of Subdomains", action='store_true')
+    parser.add_argument("-q", "--quiet", dest="quiet", help="Run Scan Without printing URLs on screen", action='store_true')
+    parser.add_argument("--deepcrawl", dest="deepcrawl", help=f"Uses All Available APIs of CommonCrawl for Crawling URLs [{Fore.WHITE}Takes Time{Fore.YELLOW}]", action='store_true')
+    parser.add_argument("-t", "--thread", dest="thread", help=f"Number of Threads to Used. Default=50 [{Fore.WHITE}Use When deepcrawl is Enabled{Fore.YELLOW}]", default=50)    
     
-if __name__ == '__main__':
+    required_arguments = parser.add_argument_group(f'{Fore.RED}Required Arguments{Fore.GREEN}')
+    required_arguments.add_argument("-d", "--domain", dest="domain", help="Target Domain Name, ex:- google.com")
+    return parser.parse_args()
+
+def main():
     arguments = get_arguments() 
     
     # Making Instance of PassiveCrawl Class
@@ -183,6 +186,9 @@ if __name__ == '__main__':
         with open(arguments.output, "w", encoding="utf-8") as f:
             for url in final_url_list:
                 f.write(url+"\n")
+    
+if __name__ == '__main__':
+    main()
                 
         
        

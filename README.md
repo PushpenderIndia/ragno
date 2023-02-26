@@ -4,13 +4,13 @@
 
 <p align="center">
     <a href="https://python.org">
-    <img src="https://img.shields.io/badge/Python-3.7-green.svg">
+    <img src="https://img.shields.io/badge/Python-3.9-green.svg">
   </a>
   <a href="https://github.com/PushpenderIndia/ragno/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg">
   </a>
   <a href="https://github.com/PushpenderIndia/ragno/releases">
-    <img src="https://img.shields.io/badge/Release-1.0-blue.svg">
+    <img src="https://img.shields.io/badge/Release-1.3-blue.svg">
   </a>
     <a href="https://github.com/PushpenderIndia/ragno">
     <img src="https://img.shields.io/badge/Open%20Source-%E2%9D%A4-brightgreen.svg">
@@ -43,42 +43,25 @@ THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. YOU MAY USE THIS
 - [x] Save Result in TXT File
 - [x] Quiet Mode
 
-## Prerequisite
-- [x] Python 3.X
-- [x] Few External Modules
-
 ## How To Use in Linux
 ```bash
-# Navigate to the /opt directory (optional)
-$ cd /opt/
-
-# Clone this repository
-$ git clone https://github.com/PushpenderIndia/ragno.git
-
-# Navigate to ragno folder
-$ cd ragno
-
-# Installing dependencies
-$ apt-get update && apt-get install python3-pip
-$ pip3 install numpy requests
-
-# Giving Executable Permission
-$ chmod +x ragno.py
+# Installing using pip
+$ pip3 install Ragno
 
 # Checking Help Menu
-$ python3 ragno.py --help
+$ ragno --help
 
 # Run Normal (Fast) Crawl
-$ python3 ragno.py -d target.com 
+$ ragno -d target.com 
 
 # Run Normal (Fast) Crawl + Saving Result
-$ python3 ragno.py -d target.com -o result.txt
+$ ragno -d target.com -o result.txt
 
 # Run Normal (Fast) Crawl + Saving Result + Quiet Mode (Without Showing URLs on screen)
-$ python3 ragno.py -d target.com -o result.txt -q
+$ ragno -d target.com -o result.txt -q
 
 # Run Deep Crawl + Saving Result + Quiet Mode (Without Showing URLs on screen)
-$ python3 ragno.py -d target.com -o result.txt -q --deepcrawl
+$ ragno -d target.com -o result.txt -q --deepcrawl
 ```
 
 ## How To Use in Windows
@@ -86,29 +69,23 @@ $ python3 ragno.py -d target.com -o result.txt -q --deepcrawl
 # Install dependencies 
 $ Install latest python 3.x from Official Site (https://www.python.org/downloads/)
 
-# Clone this repository or Download Zip File
-$ git clone https://github.com/PushpenderIndia/ragno.git
-
-# Navigate to ragno folder
-$ cd ragno
-
-# Installing dependencies
-$ python -m pip install numpy requests
+# Installing ragno using pip
+$ pip install Ragno
 
 # Checking Help Menu
-$ python ragno.py --help
+$ ragno --help
 
 # Run Normal (Fast) Crawl
-$ python ragno.py -d target.com 
+$ ragno -d target.com 
 
 # Run Normal (Fast) Crawl + Saving Result
-$ python ragno.py -d target.com -o result.txt
+$ ragno -d target.com -o result.txt
 
 # Run Normal (Fast) Crawl + Saving Result + Quiet Mode (Without Showing URLs on screen)
-$ python ragno.py -d target.com -o result.txt -q
+$ ragno -d target.com -o result.txt -q
 
 # Run Deep Crawl + Saving Result + Quiet Mode (Without Showing URLs on screen)
-$ python ragno.py -d target.com -o result.txt -q --deepcrawl
+$ ragno -d target.com -o result.txt -q --deepcrawl
 ```
 
 ## Available Arguments 
@@ -141,7 +118,7 @@ sudo wget https://github.com/tomnomnom/qsreplace/releases/download/v0.0.3/qsrepl
 
 - Run One Liner
 ```
-python3 ragno.py -d testphp.vulnweb.com -q -o ragno_urls.txt && cat ragno_urls.txt | grep -a -i \=http | qsreplace "http://evil.com" | while read target_url do; do curl -s -L $target_url -I | grep "evil.com" && echo "[+] [Vulnerable] $target_url \n"; done
+ragno -d testphp.vulnweb.com -q -o ragno_urls.txt && cat ragno_urls.txt | grep -a -i \=http | qsreplace "http://evil.com" | while read target_url do; do curl -s -L $target_url -I | grep "evil.com" && echo "[+] [Vulnerable] $target_url \n"; done
 ```
 
 * You can Use GF Tool by Tomnonnom, to filter URLs with juice parameters, and then you can test them further.
