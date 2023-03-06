@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg">
   </a>
   <a href="https://github.com/PushpenderIndia/ragno/releases">
-    <img src="https://img.shields.io/badge/Release-1.4-blue.svg">
+    <img src="https://img.shields.io/badge/Release-1.5-blue.svg">
   </a>
     <a href="https://github.com/PushpenderIndia/ragno">
     <img src="https://img.shields.io/badge/Open%20Source-%E2%9D%A4-brightgreen.svg">
