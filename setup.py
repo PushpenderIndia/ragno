@@ -21,7 +21,7 @@ with io.open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name="Ragno",
-    version="1.4",
+    version="1.5",
     description="Ragno Passive URL Crawler - Python Module",
     long_description=desc,
     long_description_content_type='text/markdown',

@@ -18,36 +18,92 @@ Crawl Source:
 """
     
 class PassiveCrawl:
-    def __init__(self, domain, want_subdomain, threadNumber, deepcrawl):
-        self.domain = domain
+    def __init__(self, domain, domain_list, want_subdomain, threadNumber, deepcrawl, is_quiet_mode, output):
+        self.domain         = domain
+        self.domain_list    = domain_list
         self.want_subdomain = want_subdomain  #Bool
-        self.deepcrawl = deepcrawl            #Bool
+        self.deepcrawl      = deepcrawl       #Bool
+        self.is_quiet_mode = is_quiet_mode    #Bool
+        self.output        = output
+
         self.threadNumber = threadNumber
-        self.final_url_list = []
+        self.final_url_list    = []
+        self.wayback_urls_list = []
+        self.otx_urls_list     = []
     
     def start(self):
+        if self.domain:
+            self.crawl_urls(self.domain)
+            # If Quiet Mode is Enabled, Save URLs in TXT File, Else Print URLS
+            if self.is_quiet_mode:
+                if self.output:
+                    with open(self.output, "w", encoding="utf-8") as f:
+                        for url in self.final_url_list:
+                            f.write(url+"\n")
+                else:
+                    with open(self.domain+".txt", "w", encoding="utf-8") as f:
+                        for url in self.final_url_list:
+                            f.write(url+"\n")   
+            else:
+                for url in self.final_url_list:
+                    print(url)
+                print("[>> Total URLs] : ", len(self.final_url_list))  
+            return self.final_url_list
+        
+        elif self.domain_list:
+            with open(self.domain_list) as f:
+                all_domains = f.readlines()
+                for domain in all_domains:
+                    ideal_domain = self.crawl_urls(domain.strip()) 
+                    if self.is_quiet_mode:
+                        with open(ideal_domain+".txt", "w", encoding="utf-8") as f:
+                            for url in self.final_url_list:
+                                f.write(url+"\n")   
+                    else:
+                        for url in self.final_url_list:
+                            print(url)
+                        print("[>> Total URLs] : ", len(self.final_url_list))  
+                    self.final_url_list = []
+
+
+    def crawl_urls(self, domain):
+        domain = self.getIdealDomain(domain)
+
         if self.deepcrawl:
-            self.startDeepCommonCrawl()
+            thread1 = threading.Thread(target=self.startDeepCommonCrawl)
         else:
-            self.getCommonCrawlURLs(self.domain, self.want_subdomain, ["http://index.commoncrawl.org/CC-MAIN-2018-22-index"])
-        
-        urls_list1 = self.getWaybackURLs(self.domain, self.want_subdomain)
-        urls_list2 = self.getOTX_URLs(self.domain)
-        
+            thread1 = threading.Thread(target=self.getCommonCrawlURLs, args=(domain, self.want_subdomain, ["http://index.commoncrawl.org/CC-MAIN-2018-22-index"]))
+            
+        # MultiThreaded
+        thread2 = threading.Thread(target=self.getWaybackURLs, args=(domain, self.want_subdomain,))
+        thread3 = threading.Thread(target=self.getOTX_URLs, args=(domain,))
+
+        # Start the threads
+        thread1.start()
+        thread2.start()
+        thread3.start()
+
+        # Wait for all threads to complete
+        thread1.join()
+        thread2.join()
+        thread3.join()
+
         # Combining all URLs list
-        self.final_url_list.extend(urls_list1)
-        self.final_url_list.extend(urls_list2)
-        
+        self.final_url_list.extend(self.wayback_urls_list)
+        self.final_url_list.extend(self.otx_urls_list)
+        self.wayback_urls_list = []
+        self.otx_urls_list     = []
+            
         # Removing Duplicate URLs
         self.final_url_list = list(dict.fromkeys(self.final_url_list))
-        
-        return self.final_url_list
+        return domain
     
     def getIdealDomain(self, domainName):
         final_domain = domainName.replace("http://", "")
         final_domain = final_domain.replace("https://", "")
         final_domain = final_domain.replace("/", "")
-        final_domain = final_domain.replace("www", "")
+        final_domain = final_domain.replace("www.", "")
+        print("[>>>] Domain:", final_domain)
         return final_domain
 
     def split_list(self, list_name, total_part_num):
@@ -87,7 +143,7 @@ class PassiveCrawl:
         for url in urls_list:
             final_urls_list.append(url[0])    
 
-        return final_urls_list
+        self.wayback_urls_list = final_urls_list
         
     def getOTX_URLs(self, domain):
         url = f"https://otx.alienvault.com/api/v1/indicators/hostname/{domain}/url_list"
@@ -98,7 +154,7 @@ class PassiveCrawl:
         for url in urls_list:
             final_urls_list.append(url["url"])
             
-        return final_urls_list         
+        self.otx_urls_list = final_urls_list
 
     def startDeepCommonCrawl(self):
         api_list =  self.get_all_api_CommonCrawl()
@@ -130,8 +186,6 @@ class PassiveCrawl:
         else:
             wild_card = ""
         
-        final_urls_list = []
-        
         for api in apiList:
             #url = f"http://index.commoncrawl.org/CC-MAIN-2018-22-index?url={wild_card+domain}/*&fl=url"  
             url = f"{api}?url={wild_card+domain}/*&fl=url"     
@@ -147,7 +201,7 @@ class PassiveCrawl:
 def get_arguments():
     banner = pyfiglet.figlet_format("            Ragno")
     print(banner+"\n")
-    parser = argparse.ArgumentParser(description=f'{Fore.RED}Ragno v1.4 {Fore.YELLOW}[Author: {Fore.GREEN}Pushpender Singh{Fore.YELLOW}] [{Fore.GREEN}https://github.com/PushpenderIndia{Fore.YELLOW}]')
+    parser = argparse.ArgumentParser(description=f'{Fore.RED}Ragno v1.5 {Fore.YELLOW}[Author: {Fore.GREEN}Pushpender Singh{Fore.YELLOW}] [{Fore.GREEN}https://github.com/PushpenderIndia{Fore.YELLOW}]')
     parser._optionals.title = f"{Fore.GREEN}Optional Arguments{Fore.YELLOW}"
     parser.add_argument("-o", "--output", dest="output", help="Save Result in TXT file")
     parser.add_argument("-s", "--subs", dest="want_subdomain", help="Include Result of Subdomains", action='store_true')
@@ -155,37 +209,24 @@ def get_arguments():
     parser.add_argument("--deepcrawl", dest="deepcrawl", help=f"Uses All Available APIs of CommonCrawl for Crawling URLs [{Fore.WHITE}Takes Time{Fore.YELLOW}]", action='store_true')
     parser.add_argument("-t", "--thread", dest="thread", help=f"Number of Threads to Used. Default=50 [{Fore.WHITE}Use When deepcrawl is Enabled{Fore.YELLOW}]", default=50)    
     
-    required_arguments = parser.add_argument_group(f'{Fore.RED}Required Arguments{Fore.GREEN}')
-    required_arguments.add_argument("-d", "--domain", dest="domain", help="Target Domain Name, ex:- google.com", required=True)
+    required_arguments = parser.add_mutually_exclusive_group(required=True)
+    required_arguments.add_argument("-d", "--domain", dest="domain", help="Target Domain Name, ex:- google.com")
+    required_arguments.add_argument("-dl", "--domain-list", dest="domain_list", help="File Containing Domain, One domain in One line.")
     return parser.parse_args()
 
 def main():
     arguments = get_arguments() 
     
     # Making Instance of PassiveCrawl Class
-    crawl = PassiveCrawl(arguments.domain, arguments.want_subdomain, arguments.thread, arguments.deepcrawl)
+    crawl = PassiveCrawl(arguments.domain, 
+                         arguments.domain_list, 
+                         arguments.want_subdomain, 
+                         arguments.thread, 
+                         arguments.deepcrawl,
+                         arguments.quiet,
+                         arguments.output
+                         )
     final_url_list = crawl.start()
-    
-    # If Quiet Mode is Enabled, Save URLs in TXT File, Else Print URLS
-    if arguments.quiet:
-        if arguments.output:
-            with open(arguments.output, "w", encoding="utf-8") as f:
-                for url in final_url_list:
-                    f.write(url+"\n")
-        else:
-            with open(arguments.domain+".txt", "w", encoding="utf-8") as f:
-                for url in final_url_list:
-                    f.write(url+"\n") 
-                    
-    else:
-        for url in final_url_list:
-            print(url)
-        print("[>> Total URLs] : ", len(final_url_list))  
-        
-    if arguments.output:
-        with open(arguments.output, "w", encoding="utf-8") as f:
-            for url in final_url_list:
-                f.write(url+"\n")
     
 if __name__ == '__main__':
     main()
