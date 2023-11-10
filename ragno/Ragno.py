@@ -35,16 +35,12 @@ class PassiveCrawl:
         if self.domain:
             self.crawl_urls(self.domain)
             # If Quiet Mode is Enabled, Save URLs in TXT File, Else Print URLS
-            if self.is_quiet_mode:
-                if self.output:
-                    with open(self.output, "w", encoding="utf-8") as f:
-                        for url in self.final_url_list:
-                            f.write(url+"\n")
-                else:
-                    with open(self.domain+".txt", "w", encoding="utf-8") as f:
-                        for url in self.final_url_list:
-                            f.write(url+"\n")   
-            else:
+            if self.output:
+                with open(self.output, "w", encoding="utf-8") as f:
+                    for url in self.final_url_list:
+                        f.write(url+"\n")
+            
+            if not self.is_quiet_mode:            
                 for url in self.final_url_list:
                     print(url)
                 print("[>> Total URLs] : ", len(self.final_url_list))  
@@ -201,7 +197,7 @@ class PassiveCrawl:
 def get_arguments():
     banner = pyfiglet.figlet_format("            Ragno")
     print(banner+"\n")
-    parser = argparse.ArgumentParser(description=f'{Fore.RED}Ragno v1.5 {Fore.YELLOW}[Author: {Fore.GREEN}Pushpender Singh{Fore.YELLOW}] [{Fore.GREEN}https://github.com/PushpenderIndia{Fore.YELLOW}]')
+    parser = argparse.ArgumentParser(description=f'{Fore.RED}Ragno v1.6 {Fore.YELLOW}[Author: {Fore.GREEN}Pushpender Singh{Fore.YELLOW}] [{Fore.GREEN}https://github.com/PushpenderIndia{Fore.YELLOW}]')
     parser._optionals.title = f"{Fore.GREEN}Optional Arguments{Fore.YELLOW}"
     parser.add_argument("-o", "--output", dest="output", help="Save Result in TXT file")
     parser.add_argument("-s", "--subs", dest="want_subdomain", help="Include Result of Subdomains", action='store_true')
