@@ -3,12 +3,13 @@
 </p>
 
 <p align="center">
-  <a href="https://pepy.tech/projects/ragno">
-    <img src="https://static.pepy.tech/personalized-badge/ragno?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads">
-  </a>
-    <a href="https://python.org">
+  <a href="https://python.org">
     <img src="https://img.shields.io/badge/Python-3.9-green.svg">
   </a>
+  <a href="https://pypi.org/project/ragno/"><img alt="pypi" src="https://img.shields.io/pypi/v/ragno.svg"></a>
+  <a href="https://pepy.tech/project/ragno?versions=1*&versions=2*&versions=3*"><img alt="Downloads" src="https://pepy.tech/badge/ragno"></a>
+  <a href="https://pepy.tech/project/ragno?versions=1*&versions=2*&versions=3*"><img alt="Downloads" src="https://pepy.tech/badge/ragno/month"></a>
+  <a href="https://github.com/PushpenderIndia/ragno/commits/main"><img alt="GitHub lastest commit" src="https://img.shields.io/github/last-commit/PushpenderIndia/ragno?color=blue&style=flat-square"></a>
   <a href="https://github.com/PushpenderIndia/ragno/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg">
   </a>
