@@ -3,6 +3,9 @@
 </p>
 
 <p align="center">
+  <a href="https://pepy.tech/projects/ragno">
+    <img src="https://static.pepy.tech/personalized-badge/ragno?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads">
+  </a>
     <a href="https://python.org">
     <img src="https://img.shields.io/badge/Python-3.9-green.svg">
   </a>
